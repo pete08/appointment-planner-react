@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route, Navigate } from "react-router-dom";
 import Root, { ROUTES } from "./components/root/Root";
 import { AppointmentsPage } from "./containers/appointmentsPage/AppointmentsPage";
@@ -16,24 +16,26 @@ function App() {
   Implement functions to add data to
   contacts and appointments
   */
-  const handleContacts = ({ target }) => {
-    const name = target.name;
-    const phone = target.phone;
-    const email = target.email;
-    setContacts((prev) => {
-      return [...prev, {
-        "name": name,
-        "phone": phone,
-        "email": email}];
-    })
+  const handleContacts = (name, phone, email) => {
+    console.log(`Before creating new contact in App.js, contacts is: ${JSON.stringify(contacts)}`);
+    console.log(`Create new contact in App.js, handleContact's args name, phone, email are: ${name},  ${phone},  ${email}`);
+    setContacts(prevContacts => [...prevContacts, {"name": name, "phone": phone, "email": email}]);
+    // setContacts((prev) => [...prev, {
+    //   "name": name,
+    //   "phone": phone,
+    //   "email": email
+    // }]);
+
+    // setContacts((prev) => ([
+    //   //spread operatior ... adds to existing value
+    //   ...prev,
+    //   {[name]: name}
+    // ]));
+
+    console.log(`Following creating new contact in App.js: contacts are now: ${JSON.stringify(contacts)}`);
   }
 
-  const handleAppointments = ({ target }) => {
-    const name = target.name;
-    const contact = target.contact;
-    const date = target.date;
-    const time = target.time;
-    setAppointments((prev) => {
+  const handleAppointments = (name, contact, date, time) => { setAppointments((prev) => {
       return [...prev, {
         "name": name,
         "contact": contact,

@@ -11,19 +11,29 @@ export const ContactsPage = (props) => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [dupeName, SetDupeName] = useState(false);
+  const [dupeName, setDupeName] = useState(false);
 
 
 
   const handleSubmit = (e) => {
-    e.preventDefaul.t();
-    // 2023-10-27 START at #3 HINT: ...Within 'handleSubmit(), if the duplicate...
+    e.preventDefault();
+    // const {name, phone, email} = e.target.value;
     /*
     Add contact info and clear data
     if the contact name is not a duplicate
     */
+    if (dupeName === false) {
+      console.log(`\nCreate new contact in ContactsPage.js, handleSubmit's\n name is: ${name}, \nphone is: ${phone}, \nemail is: ${email}\n`);
+      props.contactCallback(name, phone, email);
+      setName("");
+      setPhone("");
+      setEmail("");
+    } else {
+      alert(`${name}, name is already taken!`);
+    }
     
 
+    
   };
 
   /*
@@ -31,20 +41,25 @@ export const ContactsPage = (props) => {
   contacts array variable in props
   */ 
   useEffect(() => {
-    const dupeNameFind = props.contacts.filter((contact) => contact.name === name)
-    if (dupeNameFind.length > 0) {
-      SetDupeName(true);
+    console.log(`checkng existing names in contact. Names are: ${JSON.stringify(props.contacts)}`)
+    // change useEffect to set dupeName to true if name is already in contacts 
+    for (const contact of props.contacts) {
+      if (Object.values(contact).includes(name)) {
+        setDupeName(true);
+      }
     }
   }, [name])
 
   return (
     <div>
       <section>
-        <h2>Add Contact</h2> 
+        <h2>Add Contact</h2>
+        <ContactForm name={name} setName={setName} phone={phone} setPhone={setPhone} email={email} setEmail={setEmail} handleSubmit={handleSubmit} />
       </section>
       <hr />
       <section>
         <h2>Contacts</h2>
+        <TileList array={props.contacts}/>
       </section>
     </div>
   );
