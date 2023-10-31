@@ -25,15 +25,15 @@ export const ContactsPage = (props) => {
     if (dupeName === false) {
       console.log(`\nCreate new contact in ContactsPage.js, handleSubmit's\n name is: ${name}, \nphone is: ${phone}, \nemail is: ${email}\n`);
       props.contactCallback(name, phone, email);
+      document.getElementById("contactForm").reset();
       setName("");
       setPhone("");
       setEmail("");
     } else {
       alert(`${name}, name is already taken!`);
-    }
-    
-
-    
+      setName("");
+      setDupeName(false);
+    }   
   };
 
   /*
@@ -41,20 +41,20 @@ export const ContactsPage = (props) => {
   contacts array variable in props
   */ 
   useEffect(() => {
-    console.log(`checkng existing names in contact. Names are: ${JSON.stringify(props.contacts)}`)
+    console.log(`checking to see if ${name} existing names in contact. Names are: ${JSON.stringify(props.contacts)}`)
     // change useEffect to set dupeName to true if name is already in contacts 
     for (const contact of props.contacts) {
       if (Object.values(contact).includes(name)) {
         setDupeName(true);
       }
     }
-  }, [name])
+  }, [{name}])
 
   return (
     <div>
-      <section>
         <h2>Add Contact</h2>
         <ContactForm name={name} setName={setName} phone={phone} setPhone={setPhone} email={email} setEmail={setEmail} handleSubmit={handleSubmit} />
+      <section>
       </section>
       <hr />
       <section>
